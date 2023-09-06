@@ -9,14 +9,21 @@ class Student:
         self.grades = {}
 
     def avg_grade(self, self_grades: dict):
-        sum = 0
-        count = 0
-        for course, grade in self_grades.items():
-            for i in grade:
-                sum += i
-                count += 1
-        avg_grade = round(sum / count, 1)
+        summa = 0
+        for course in self_grades.keys():
+            summa += sum(self_grades[course])
+        avg_grade = round(summa / len(self_grades.keys()), 1)
         return avg_grade
+
+    def __eq__(self, other):
+        student_1 = self.avg_grade(self.grades)
+        student_2 = other.avg_grade(other.grades)
+        return student_1 == student_2
+
+    def __lt__(self, other):
+        student_1 = self.avg_grade(self.grades)
+        student_2 = other.avg_grade(other.grades)
+        return student_1 < student_2
 
     def rate_lecturer(self, lecturer, course, grade):
         if isinstance(lecturer, Lecturer) and isinstance(self, Student):
@@ -29,21 +36,6 @@ class Student:
                 print("Check if you are enrolled to the course and mentor leads the course")
         else:
             print("Check if you are student or mentor name is correct")
-
-    def student_compare(self, student, course):
-        if course in self.grades and course in student.grades:
-            if sum(self.grades[course])/len(self.grades[course]) > sum(student.grades[course])/len(student.grades[course]):
-                rate_high = f'{self.surname} {self.name}'
-                rate_low = f'{student.surname} {student.name}'
-            elif sum(self.grades[course])/len(self.grades[course]) < sum(student.grades[course])/len(student.grades[course]):
-                rate_low = f'{self.surname} {self.name}'
-                rate_high = f'{student.surname} {student.name}'
-            else:
-                return f'Students {self.name} {self.surname} and {student.name} {student.surname} have the same rating'
-        else:
-            return f'Please check that {self.name} {self.surname} and {student.name} {student.surname} are on the same course'
-        return f'Student {rate_high} has higher rating than student {rate_low}'
-
 
     def __str__(self):
         return f'Student:\nName: {self.name}\nSurname: {self.surname}\nAverage homework grade:{self.avg_grade(self.grades)}\nCourses in progress:{", ".join(self.courses_in_progress)}\nCompleted courses:{", ".join(self.finished_courses)}'
@@ -60,31 +52,23 @@ class Mentor:
 
 class Lecturer(Mentor):
     from statistics import mean
+
     def avg_grade(self, self_grades: dict):
-        sum = 0
-        count = 0
-        for course, grade in self_grades.items():
-            for i in grade:
-                sum += i
-                count += 1
-        avg_grade = round(sum / count, 1)
+        summa = 0
+        for course in self_grades.keys():
+            summa += sum(self_grades[course])
+        avg_grade = round(summa / len(self_grades.keys()), 1)
         return avg_grade
 
-    def lecturer_compare(self, lecturer, course):
-        if course in self.grades and course in lecturer.grades:
-            if sum(self.grades[course])/len(self.grades[course]) > sum(lecturer.grades[course])/len(lecturer.grades[course]):
-                rate_high = f'{self.surname} {self.name}'
-                rate_low = f'{lecturer.surname} {lecturer.name}'
-            elif sum(self.grades[course])/len(self.grades[course]) < sum(lecturer.grades[course])/len(lecturer.grades[course]):
-                rate_low = f'{self.surname} {self.name}'
-                rate_high = f'{lecturer.surname} {lecturer.name}'
-            else:
-                return f'Lecturers {self.name} {self.surname} and {lecturer.name} {lecturer.surname} have the same rating'
-        else:
-            return f'Please check that {self.name} {self.surname} and {lecturer.name} {lecturer.surname} are on the same course'
-        return f'Lecturer {rate_high} has higher rating than lecturer {rate_low}'
+    def __eq__(self, other):
+        lecturer_1 = self.avg_grade(self.grades)
+        lecturer_2 = other.avg_grade(other.grades)
+        return lecturer_1 == lecturer_2
 
-
+    def __lt__(self, other):
+        lecturer_1 = self.avg_grade(self.grades)
+        lecturer_2 = other.avg_grade(other.grades)
+        return lecturer_1 < lecturer_2
 
 
     def __str__(self):
@@ -171,7 +155,7 @@ lecturer_2.courses_attached += ['Python', 'Django']
 student_1.rate_lecturer(lecturer_1, 'Django', 10)
 student_1.rate_lecturer(lecturer_2, 'Django', 20)
 reviewer_1.rate_student(student_1, 'Django', 30)
-reviewer_1.rate_student(student_2, 'Django', 50)
+reviewer_1.rate_student(student_2, 'Django', 20)
 
 ''' task 4 average grade'''
 
@@ -180,13 +164,27 @@ print(f'Avarage student grade on "{course}" is {avg_course_grade(student_list, c
 print(f'Avarage lecturer grade on "{course}" is {avg_course_grade(lecturer_list, course)}')
 
 '''comparison based on average grade'''
+if student_1 == student_2:
+    print(f"Student's {student_1.name} {student_1.surname} grade rating equals to student's {student_2.name} {student_2.surname}")
+elif student_1 < student_2:
+    print(f"Student's {student_1.name} {student_1.surname} grade rating is lower than student's {student_2.name} {student_2.surname}")
+else:
+    print(f"Student's {student_1.name} {student_1.surname} grade rating is higher than student's {student_2.name} {student_2.surname}")
 
-print(lecturer_1.lecturer_compare(lecturer_2, 'Django'))
-print(student_1.student_compare(student_2, 'Django'))
+
+if lecturer_1 == lecturer_2:
+    print(f"Lecturer's {lecturer_1.name} {lecturer_1.surname} grade rating equals to lecturer's {lecturer_2.name} {lecturer_2.surname}")
+elif lecturer_1 < lecturer_2:
+    print(f"Lecturer's {lecturer_1.name} {lecturer_1.surname} grade rating is lower than lecturer's {lecturer_2.name} {lecturer_2.surname}")
+else:
+    print(f"Lecturer's {lecturer_1.name} {lecturer_1.surname} grade rating is higher than lecturer's {lecturer_2.name} {lecturer_2.surname}")
+
+
 print()
-
 print(student_1)
 print()
 print(lecturer_1)
 print()
 print(reviewer_1)
+
+print(student_1 == student_2)
