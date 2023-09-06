@@ -165,19 +165,21 @@ print(f'Avarage lecturer grade on "{course}" is {avg_course_grade(lecturer_list,
 
 '''comparison based on average grade'''
 if student_1 == student_2:
-    print(f"Student's {student_1.name} {student_1.surname} grade rating equals to student's {student_2.name} {student_2.surname}")
+    sign = "equals"
 elif student_1 < student_2:
-    print(f"Student's {student_1.name} {student_1.surname} grade rating is lower than student's {student_2.name} {student_2.surname}")
+    sign = 'lower'
 else:
-    print(f"Student's {student_1.name} {student_1.surname} grade rating is higher than student's {student_2.name} {student_2.surname}")
+    sign = 'higher'
+print(f"Student's {student_1.name} {student_1.surname} grade rating is {sign} than student's {student_2.name} {student_2.surname}")
 
 
 if lecturer_1 == lecturer_2:
-    print(f"Lecturer's {lecturer_1.name} {lecturer_1.surname} grade rating equals to lecturer's {lecturer_2.name} {lecturer_2.surname}")
+    sign = "equals"
 elif lecturer_1 < lecturer_2:
-    print(f"Lecturer's {lecturer_1.name} {lecturer_1.surname} grade rating is lower than lecturer's {lecturer_2.name} {lecturer_2.surname}")
+    sign = 'lower'
 else:
-    print(f"Lecturer's {lecturer_1.name} {lecturer_1.surname} grade rating is higher than lecturer's {lecturer_2.name} {lecturer_2.surname}")
+    sign = 'higher'
+    print(f"Lecturer's {lecturer_1.name} {lecturer_1.surname} grade rating is {sign} than lecturer's {lecturer_2.name} {lecturer_2.surname}")
 
 
 print()
@@ -187,4 +189,3 @@ print(lecturer_1)
 print()
 print(reviewer_1)
 
-print(student_1 == student_2)
